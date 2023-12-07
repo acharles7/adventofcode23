@@ -7,7 +7,6 @@ def find_ratio(data: list[str]) -> int:
     grid = [list(line) for line in data]
     n, m = len(grid), len(grid[0])
     gears = defaultdict(list)
-    gear_ratio = 0
 
     def nearby_stars(start: tuple[int, int], end: tuple[int, int]) -> tuple[int, int]:
         p1, q1 = start
@@ -50,15 +49,8 @@ def find_ratio(data: list[str]) -> int:
             if star := nearby_stars(start, end):
                 gears[star].append(int(num))
 
-    for star, nums in gears.items():
-        if len(nums) >= 2:
-            ratio = 1
-            for num in nums:
-                ratio *= num
-            gear_ratio += ratio
-
+    gear_ratio = sum(nums[0] * nums[1] for nums in gears.values() if len(nums) == 2)
     return gear_ratio
-
 
 
 if __name__ == '__main__':
